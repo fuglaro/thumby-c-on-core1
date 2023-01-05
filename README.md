@@ -11,7 +11,7 @@ The files included in this repository include the launching and bootstrapping co
 * Load the MicroPython launcher **corelauncher.py**: FILE -> IMPORT FROM PC -> corelauncher.py
 * Connect your Thumby (via USB): CONNECT THUMBY
 * Upload the prebuilt example C code binary **example/othercore.bin** to your Thumby: UPLOAD -> example/othercore.bin
-	* Just drop it at the root for now by selecting "\" before hitting OK.
+	* Just drop it at the root for now by selecting "\\" before hitting OK.
 * Run the codelauncher with: FAST EXECUTE
 
 The screen should show horizontal lines and increase in brightness in stages.
