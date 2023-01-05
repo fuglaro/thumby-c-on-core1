@@ -33,8 +33,8 @@ You can see these commands being sent to the memory registers in the Shell outpu
 * [0]: Bootstrapping Core 1 - lead in.
 * [1]: Bootstrapping Core 1 - lead in.
 * [536911504]: Bootstrapping Core 1 - the memory address of the interrupt handler table (VTOR).
-* [536934704]: Bootstrapping Core 1 - the memory address of the stack.
-* [536912641]: Bootstrapping Core 1 - the memory address of the execution code.
+* [536934704]: Bootstrapping Core 1 - the memory address of the stack (end/top of the bytearray rather than the start because stacks go the other way).
+* [536912641]: Bootstrapping Core 1 - the memory address of the execution code (with bit#1 ON to indicate the C code was compiled with thumb mode packing).
 * [536911232]: The memory address of the shared memory buffer (sent to the C code itself).
 
 Interestingly, these print statements seems to be providing the equivalence of calling the SEV (send event) assembly command which gives Core1 a kick to respond. I couldn't find a better way to do the SEV as it isn't yet supported in MicroPython's asm_thumb.
