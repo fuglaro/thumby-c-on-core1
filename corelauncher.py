@@ -51,12 +51,12 @@ def run(binary_file, shared_buffer, stack_size=2048):
 
 #### Example code for communicating with Core1 ####
 if 1: # Test example TODO
-    shared = bytearray([55, 0])
+    shared = bytearray([55, 0, 0, 0])
     run("othercore.bin", shared)
     from time import sleep
     for i in range(5):
         shared[0] = i*5
         sleep(1)
-        print(f"[ocore] Response: [{mem32[_FIFO_READ] if (mem32[_FIFO_STATUS] & _VALID_BIT) else None}, {shared[1]}]")
+        print(f"[ocore] Response: [{mem32[_FIFO_READ] if (mem32[_FIFO_STATUS] & _VALID_BIT) else None}, {shared[1]}] -- SBuff: {list(shared)}")
     from machine import reset
     reset()

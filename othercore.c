@@ -6,7 +6,14 @@
 #define SPI0 (MEM(0x4003c000))
 #define SIO (MEM(0xd0000000))
 
-static void __attribute__ ((naked)) main(void) {
+
+
+// NOTE! Varaibles should only be declarted inside functions (on stack only).
+// NOTE! Malloc or any kind of heap access is not supported (use stack only).
+
+
+
+static void main(void) {
 	//== Remaining bootstraping process of core1 ==
 	while((FIFOS & 3) != 3){} // wait for respondable shared buffer message
 	char* shared_buffer = (char*)(FIFOW = FIFOR);
@@ -14,14 +21,27 @@ static void __attribute__ ((naked)) main(void) {
 
 
 
+
+
+
+
 	//#### Example code for Core1 ####//
 	//== Functionality to run on the other core ==
+	#include <stdint.h>
+	uint32_t divremu(const uint32_t n, const uint32_t d, uint32_t* r) {
+		*r = n % d;
+		return n / d;
+	}
 	int i;
 	while(1) {
 		FIFOW = 99; // ping status code back to core0
 
 		// Test reading and sending data back to core0 through the shared buffer
 		shared_buffer[1] = shared_buffer[0];
+
+		// Test function calls and data access
+		shared_buffer[2] = divremu(11, 10, (uint32_t*)&i);
+		shared_buffer[3] = i;
 
 		// Test drawing a frame to the display
 		SIO[6] = (1 << 16); // cs(0)
@@ -43,8 +63,6 @@ static void __attribute__ ((naked)) main(void) {
 		while((SPI0[3] & 0x10) == 0x10) {}
 		while((SPI0[3] & 4) == 4) {i = SPI0[2];}
 	}
-
-
-
-
 }
+
+
